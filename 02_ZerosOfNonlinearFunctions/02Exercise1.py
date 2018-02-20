@@ -5,7 +5,7 @@ Created on Tue Feb 20 18:45:10 2018
 @author: UO238186
 """
 
-def bisection(f,a,b,tol,maxiter):
+def bisection(f,a,b,tol = 1.e-12, maxiter = 200):
     n = 0
     sol = (a+b)/2.
     while n < maxiter and abs(b-sol) > tol:
