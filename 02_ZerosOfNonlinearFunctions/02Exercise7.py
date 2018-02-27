@@ -21,37 +21,33 @@ tol = 1.e-12
 maxiter = 100
 
 # find the zeroes with scipy
-x0 = opt.newton(f,0,df,tol=tol,maxiter=maxiter)
-x1 = opt.newton(f,3,df,tol=tol,maxiter=maxiter)
-x2 = opt.newton(f,6.5,df,tol=tol,maxiter=maxiter)
-x3 = opt.newton(f,8,df,tol=tol,maxiter=maxiter)
+x0 = opt.newton(f,17,tol=tol,maxiter=maxiter)
 
 # plot the zeroes and show the graph
-plt.title('Exercise 6 - scipy',fontsize=18)
+plt.title('Exercise 7 - scipy',fontsize=18)
 plt.plot(x,y,label='f function')
 plt.plot(x,OX,'k-')
-plt.plot([x0,x1,x2,x3],[0,0,0,0], 'ro', label='zeroes')
+plt.plot([x0],[0], 'ro', label='zeroes')
 plt.legend()
 plt.show()
 
 # find the zeroes with custom newton function
-def newton(f,df,x0,tol = 1.e-12,maxiter = 200):
+def secant(f,x0,x1,tol = 1.e-12,maxiter = 200):
     n = 0
     sol = x0
-    while n < maxiter and abs(f(sol)) > tol:
+    while n < maxiter and abs(x1-x0) > tol:
         n += 1
-        sol = sol - (f(sol)/df(sol))
+        sol = x1 - f(x1)*((x1-x0)/(f(x1)-f(x0)))
+        x0 = x1
+        x1 = sol
     return (sol, n)
 
-x0, n = newton(f,df,0,tol,maxiter)
-x1, n = newton(f,df,3,tol,maxiter)
-x2, n = newton(f,df,6.5,tol,maxiter)
-x3, n = newton(f,df,8,tol,maxiter)
+x0, n = secant(f,17,20,tol,maxiter)
 
 # plot the zeroes and show the graph
-plt.title('Exercise 6 - custom function',fontsize=18)
+plt.title('Exercise 7 - custom function',fontsize=18)
 plt.plot(x,y,label='f function')
 plt.plot(x,OX,'k-')
-plt.plot([x0,x1,x2,x3],[0,0,0,0], 'ro', label='zeroes')
+plt.plot([x0],[0], 'ro', label='zeroes')
 plt.legend()
 plt.show()
